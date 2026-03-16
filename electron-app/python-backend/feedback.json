@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "satisfied": true,
+    "comment": "",
+    "prompt": "[磐匠题库v1.0].题目 [supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f].完成时间 将两个表按上面的字段合并，",
+    "code": "result = pd.merge(df_0, df_1, left_on='任务ID', right_on='题目编号', how='left')",
+    "timestamp": "2025-12-16T03:59:11.012Z"
+  }
+]

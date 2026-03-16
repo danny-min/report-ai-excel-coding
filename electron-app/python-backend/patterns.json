@@ -1,0 +1,133 @@
+[
+  {
+    "id": 1,
+    "prompt": "[supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f].任务ID [磐匠题库v1.0].题目编号根据这两个字段合并表格",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [
+      {
+        "table_name": "supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f",
+        "field": "任务ID"
+      },
+      {
+        "table_name": "磐匠题库v1.0",
+        "field": "题目编号根据这两个字段合并表格"
+      }
+    ],
+    "timestamp": "2025-12-17T12:20:49.377Z"
+  },
+  {
+    "id": 2,
+    "prompt": "[supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f].任务ID [磐匠题库v1.0].题目编号根据这两个字段合并表格",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [
+      {
+        "table_name": "supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f",
+        "field": "任务ID"
+      },
+      {
+        "table_name": "磐匠题库v1.0",
+        "field": "题目编号根据这两个字段合并表格"
+      }
+    ],
+    "timestamp": "2025-12-17T12:24:35.897Z"
+  },
+  {
+    "id": 3,
+    "prompt": "[supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f].任务ID [磐匠题库v1.0].题目编号把这两个表按id合并",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [
+      {
+        "table_name": "supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f",
+        "field": "任务ID"
+      },
+      {
+        "table_name": "磐匠题库v1.0",
+        "field": "题目编号把这两个表按id合并"
+      }
+    ],
+    "timestamp": "2025-12-17T12:31:54.888Z"
+  },
+  {
+    "id": 4,
+    "prompt": "[supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f].任务ID [磐匠题库v1.0].题目编号根据这两个id合并表格",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [
+      {
+        "table_name": "supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f",
+        "field": "任务ID"
+      },
+      {
+        "table_name": "磐匠题库v1.0",
+        "field": "题目编号根据这两个id合并表格"
+      }
+    ],
+    "timestamp": "2025-12-18T02:23:18.943Z"
+  },
+  {
+    "id": 5,
+    "prompt": "把两个表按ID进行合并",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [],
+    "timestamp": "2025-12-18T02:25:39.888Z"
+  },
+  {
+    "id": 6,
+    "prompt": "根据id合并这两个表格",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [],
+    "timestamp": "2025-12-18T02:28:51.741Z"
+  },
+  {
+    "id": 7,
+    "prompt": "把两个表按ID进行合并",
+    "keywords": [
+      "合并"
+    ],
+    "fields": [],
+    "timestamp": "2025-12-18T02:52:33.434Z"
+  },
+  {
+    "id": 8,
+    "prompt": "奥我说错了，是把 [磐匠题库v1.0].题目编号 的内容放到 [supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f].任务ID这个表的sheet2里",
+    "keywords": [],
+    "fields": [
+      {
+        "table_name": "磐匠题库v1.0",
+        "field": "题目编号"
+      },
+      {
+        "table_name": "supervision_data_48754d60-83f4-4859-b0d0-e9be20010e3f",
+        "field": "任务ID这个表的sheet2里"
+      }
+    ],
+    "timestamp": "2025-12-18T02:59:47.427Z"
+  },
+  {
+    "id": 9,
+    "prompt": "[大模型能力接入台账].上线计划晒出小于今天的日期，告诉我[大模型能力接入台账].应用场景就行",
+    "keywords": [],
+    "fields": [
+      {
+        "table_name": "大模型能力接入台账",
+        "field": "上线计划晒出小于今天的日期"
+      },
+      {
+        "table_name": "大模型能力接入台账",
+        "field": "应用场景就行"
+      }
+    ],
+    "timestamp": "2025-12-18T05:22:20.053Z"
+  }
+]

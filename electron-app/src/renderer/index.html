@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;">
+    <title>AI 报表生成器 - 智能数据分析助手</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- 自定义标题栏 -->
+    <div class="custom-titlebar">
+        <div class="titlebar-drag-region"></div>
+        <div class="titlebar-actions">
+            <button class="titlebar-action-btn" onclick="openSettings()" title="设置">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                    <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="titlebar-controls">
+            <button class="titlebar-btn" id="btn-minimize" title="最小化">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <rect fill="currentColor" width="10" height="1" x="1" y="6"></rect>
+                </svg>
+            </button>
+            <button class="titlebar-btn" id="btn-maximize" title="最大化">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <rect fill="none" stroke="currentColor" stroke-width="1" width="9" height="9" x="1.5" y="1.5"></rect>
+                </svg>
+            </button>
+            <button class="titlebar-btn titlebar-btn-close" id="btn-close" title="关闭">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <path fill="currentColor" d="M6.707 6l3.646-3.646a.5.5 0 0 0-.707-.708L6 5.293 2.354 1.646a.5.5 0 1 0-.708.708L5.293 6l-3.647 3.646a.5.5 0 0 0 .708.708L6 6.707l3.646 3.647a.5.5 0 0 0 .708-.708L6.707 6z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- 侧边栏展开按钮（收起时显示） -->
+        <button class="sidebar-expand-btn" onclick="toggleSidebar()" title="展开侧边栏 (Ctrl+B)">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4 1l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        
+        <!-- 左侧 Agent 边栏 -->
+        <aside class="agent-sidebar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" title="收起侧边栏 (Ctrl+B)">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                    <path d="M8 1L3 6l5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="agent-sidebar-brand">
+                <span class="brand-icon">📊</span>
+                <span class="brand-title">AI 报表生成器</span>
+            </div>
+            <div class="agent-sidebar-header">
+                <input type="text" 
+                       class="agent-search" 
+                       id="agent-search" 
+                       placeholder="搜索 Agents..."
+                       autocomplete="off">
+            </div>
+            <div class="agent-sidebar-actions">
+                <button class="agent-new-btn" onclick="createNewAgent()">
+                    <span class="agent-new-icon">+</span>
+                    <span>New Agent</span>
+                </button>
+            </div>
+            <div class="agent-sidebar-title">Agents</div>
+            <div class="agent-list" id="agent-list">
+                <!-- 动态生成 -->
+            </div>
+        </aside>
+
+        <!-- 主区域 -->
+        <div class="main-area">
+            <!-- 顶部栏 -->
+            <header class="app-header">
+                <!-- 标题已移至左侧边栏 -->
+            </header>
+
+            <!-- 主内容区 -->
+            <main class="app-main">
+            <!-- 聊天面板 -->
+            <div class="chat-panel">
+                <!-- 消息区域 -->
+                <div class="chat-messages" id="chat-messages">
+                    <!-- 欢迎状态 -->
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-icon">🤖</div>
+                        <h3>开始对话</h3>
+                        <p>上传数据表后，用自然语言描述你的需求</p>
+                        <div class="example-questions">
+                            <span class="example-tag" data-question="按区域统计销售额总和，降序排列">📊 按区域统计销售额</span>
+                            <span class="example-tag" data-question="找出销售额最高的前10个产品">🏆 TOP10 产品</span>
+                            <span class="example-tag" data-question="计算每月销售趋势">📈 月度趋势分析</span>
+                            <span class="example-tag" data-question="对比各部门业绩">📋 部门业绩对比</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 输入区域 -->
+                <div class="chat-input-area">
+                    <div class="quick-actions" id="quick-actions">
+                        <span class="quick-tag" data-action="upload">📁 上传文件</span>
+                        <span class="quick-tag" data-action="history">📜 执行历史</span>
+                        <span class="quick-tag" data-action="clear">🗑️ 清空对话</span>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-wrapper">
+                            <span class="input-icon">💬</span>
+                            <textarea 
+                                id="user-input" 
+                                placeholder="请输入你的数据分析需求... (Shift+Enter 换行)"
+                                rows="1"
+                                autocomplete="off"
+                            ></textarea>
+                        </div>
+                        <button class="send-btn" id="btn-send">
+                            <span>发送</span>
+                            <span class="send-icon">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 侧边面板 -->
+            <div class="side-panel">
+                <!-- 数据表卡片 -->
+                <div class="panel-card">
+                    <div class="panel-title">
+                        <span class="panel-icon">📋</span>
+                        <span>数据表</span>
+                        <button class="panel-action" id="btn-upload-table">+</button>
+                    </div>
+                    <div class="table-list" id="table-list">
+                        <div class="empty-table-hint">
+                            暂无数据表，请上传文件
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 统计信息卡片 -->
+                <div class="panel-card" id="stats-card" style="display: none;">
+                    <div class="panel-title">
+                        <span class="panel-icon">📈</span>
+                        <span>数据概览</span>
+                    </div>
+                    <div class="stats-grid" id="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">表数量</span>
+                            <span class="stat-value" id="stat-tables">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">总行数</span>
+                            <span class="stat-value" id="stat-rows">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">总列数</span>
+                            <span class="stat-value" id="stat-cols">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 历史记录卡片 -->
+                <div class="panel-card">
+                    <div class="panel-title">
+                        <span class="panel-icon">📜</span>
+                        <span>历史查询</span>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <div class="empty-history-hint">
+                            暂无历史记录
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+            <!-- 底部状态栏（左下角） -->
+            <footer class="app-footer">
+                <div class="status-item">
+                    <span class="status-dot" id="status-backend"></span>
+                    <span>后端: <span id="status-backend-text">检测中...</span></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot" id="status-llm"></span>
+                    <span>LLM: <span id="status-llm-text">未连接</span></span>
+                </div>
+                <div class="status-item">
+                    <span>📋 表: <span id="footer-tables">0</span></span>
+                </div>
+            </footer>
+        </div><!-- .main-area -->
+    </div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loading-text">AI 正在分析...</div>
+        </div>
+    </div>
+
+    <!-- Toast 容器 -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- 输入对话框 -->
+    <div class="modal-overlay" id="prompt-modal" style="display: none;">
+        <div class="modal-content prompt-modal">
+            <div class="modal-header">
+                <h3 id="prompt-title">请输入</h3>
+                <button class="modal-close" onclick="closePromptModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" 
+                       id="prompt-input" 
+                       class="prompt-input" 
+                       placeholder="请输入..."
+                       autocomplete="off">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closePromptModal()">取消</button>
+                <button class="btn-primary" onclick="confirmPromptModal()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置面板 -->
+    <div class="modal-overlay" id="settings-modal" style="display: none;">
+        <div class="modal-content settings-modal">
+            <div class="modal-header">
+                <h3>⚙️ 设置</h3>
+                <button class="modal-close" onclick="closeSettings()">&times;</button>
+            </div>
+            <div class="settings-body">
+                <!-- 端口设置 -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <div class="settings-section-title">
+                            <span class="settings-icon">🔌</span>
+                            <span>后端端口</span>
+                        </div>
+                    </div>
+                    <p class="settings-desc">如果默认端口 5000 被其他程序占用，可以修改为其他端口（1024-65535）</p>
+                    
+                    <div class="port-setting">
+                        <div class="port-input-group">
+                            <label for="backend-port">端口号：</label>
+                            <input type="number" id="backend-port" min="1024" max="65535" value="5000" class="port-input">
+                            <button class="btn-apply-port" onclick="applyPortAndRestart()">应用并重启</button>
+                        </div>
+                        <p class="port-hint">💡 修改后将自动重启应用</p>
+                        
+                        <div class="port-diagnostics">
+                            <button class="btn-diagnose" onclick="runPortDiagnostics()">🔍 诊断端口问题</button>
+                            <div id="diagnostics-result" class="diagnostics-result" style="display:none;"></div>
+                        </div>
+                        
+                        <div class="port-cleanup">
+                            <button class="btn-cleanup" onclick="forceCleanupBackend()">🔧 强制清理后台进程</button>
+                            <span class="cleanup-hint">如果端口一直冲突，点击此按钮清理残留进程</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 快捷键设置 -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <div class="settings-section-title">
+                            <span class="settings-icon">⌨️</span>
+                            <span>全局快捷键</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="shortcuts-enabled" onchange="toggleShortcuts()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p class="settings-desc">启用后可使用键盘快捷键快速操作</p>
+                    
+                    <div class="shortcuts-list" id="shortcuts-list">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="resetSettings()">恢复默认</button>
+                <button class="btn-primary" onclick="closeSettings()">完成</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关闭确认对话框 -->
+    <div class="modal-overlay" id="close-dialog" style="display: none;">
+        <div class="modal-content close-dialog">
+            <div class="close-dialog-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="22" stroke="url(#grad1)" stroke-width="2" fill="rgba(45, 90, 240, 0.1)"/>
+                    <path d="M24 14v12M24 30v4" stroke="#58a6ff" stroke-width="3" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2d5af0"/>
+                            <stop offset="100%" style="stop-color:#6366f1"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h3 class="close-dialog-title">关闭窗口</h3>
+            <p class="close-dialog-desc">选择您想要的操作</p>
+            <div class="close-dialog-options">
+                <button class="close-option" onclick="handleCloseChoice('minimize')">
+                    <span class="close-option-icon">📥</span>
+                    <span class="close-option-text">
+                        <span class="close-option-title">最小化到托盘</span>
+                        <span class="close-option-desc">应用在后台运行，可从右下角恢复</span>
+                    </span>
+                </button>
+                <button class="close-option close-option-danger" onclick="handleCloseChoice('quit')">
+                    <span class="close-option-icon">🚪</span>
+                    <span class="close-option-text">
+                        <span class="close-option-title">退出程序</span>
+                        <span class="close-option-desc">完全关闭应用</span>
+                    </span>
+                </button>
+            </div>
+            <button class="close-dialog-cancel" onclick="handleCloseChoice('cancel')">取消</button>
+        </div>
+    </div>
+
+    <!-- 执行历史弹框 -->
+    <div class="modal-overlay" id="execution-history-modal" style="display: none;">
+        <div class="modal-content execution-history-modal">
+            <div class="modal-header">
+                <h3>📜 执行历史</h3>
+                <button class="modal-close" onclick="closeExecutionHistoryModal()">&times;</button>
+            </div>
+            <div class="execution-history-body">
+                <div class="execution-history-tip">
+                    选择要保留的历史记录，点击「批量执行」可对相同结构的新数据重新执行所有操作
+                </div>
+                <div class="execution-history-list" id="execution-history-list">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+            <div class="modal-footer execution-history-footer">
+                <div class="history-footer-left">
+                    <button class="btn btn-danger-outline" onclick="clearAllExecutionHistory()">🗑️ 清空全部</button>
+                </div>
+                <div class="history-footer-right">
+                    <button class="btn btn-secondary" onclick="closeExecutionHistoryModal()">关闭</button>
+                    <button class="btn btn-primary" id="btn-batch-execute" onclick="batchExecuteHistory()">▶️ 批量执行</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>
